@@ -1,7 +1,11 @@
 import { Navigate } from "react-router-dom";
 import { auth } from "../firebase";
 
-export default function AuthRoute({ children }: { children: React.ReactNode }) {
+export default function ServiceAuthRoute({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const user = auth.currentUser;
   if (user === null) {
     return <Navigate to="/login" />;

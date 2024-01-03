@@ -4,33 +4,60 @@ import { createGlobalStyle, styled } from "styled-components";
 import reset from "styled-reset";
 import { useEffect, useState } from "react";
 import { auth } from "./firebase";
-import LoadingScreen from "./view/common/LoadingScreen";
-import AuthRoute from "./routes/AuthRoute";
-import AuthLayout from "./view/layout/AuthLayout";
+import LoadingScreen from "./view/common/loading-screen";
+import BrochureRoute from "./routes/brochure-route";
+import BrochureLayout from "./view/layout/brochure-layout";
+import ServiceAuthRoute from "./routes/service-auth-route";
+import ServiceAuthLayout from "./view/layout/service-auth-layout";
+import Login from "./view/pages/login";
+import CreateAccount from "./view/pages/create-account";
+import BrochureHome from "./view/pages/brochure-home";
+import PurchaseTicket from "./view/pages/purchase-ticket";
+import DownloadProduct from "./view/pages/download-product";
 
 const router = createBrowserRouter([
   {
     path: "/service",
     element: (
-      <AuthRoute>
-        <AuthLayout />
-      </AuthRoute>
+      <ServiceAuthRoute>
+        <ServiceAuthLayout />
+      </ServiceAuthRoute>
     ),
     children: [],
   },
   {
     path: "/",
-    element: <></>,
+    element: (
+      <BrochureRoute>
+        <BrochureLayout />
+      </BrochureRoute>
+    ),
     children: [
       {
+        // Brochure Home
+        path: "",
+        element: <BrochureHome />,
+      },
+      {
         // log-in
-        path: `/${oiConstant.routeConstant.base.uri}/${oiConstant.routeConstant.path.login}`,
-        element: <></>,
+        path: `${oiConstant.url.brochure.base}${oiConstant.url.brochure.login}`,
+        // path: "/soi/v1/brochure/login",
+        element: <Login />,
       },
       {
         // create-account
-        path: `/${oiConstant.routeConstant.base.uri}/${oiConstant.routeConstant.path.createAccount}`,
-        element: <></>,
+        path: `${oiConstant.url.brochure.base}${oiConstant.url.brochure.createAccount}`,
+        element: <CreateAccount />,
+      },
+      {
+        // product-install
+        path: `${oiConstant.url.brochure.base}${oiConstant.url.brochure.donwloadProduct}`,
+        element: <DownloadProduct />,
+      },
+      {
+        // purchase-ticket
+        path: `${oiConstant.url.brochure.base}${oiConstant.url.brochure.purchaseTicket}`,
+        element: <PurchaseTicket />,
       },
     ],
   },
