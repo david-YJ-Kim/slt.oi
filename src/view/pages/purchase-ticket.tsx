@@ -18,7 +18,7 @@ export default function PurchaseTicket() {
       return;
     }
 
-    confirm("Are you sure to purchase ticket?");
+    confirm(`Are you sure to purchase ticket? uid: ${user.uid}`);
     try {
       await addDoc(collection(db, "tickets"), {
         userId: user.uid,

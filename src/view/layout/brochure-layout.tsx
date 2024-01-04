@@ -1,17 +1,23 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { Menu, MenuItem, Wrapper } from "../../components/layout-styled";
 import oiConstant from "../../oi-constant";
 import { auth } from "../../firebase";
+import { useState, useEffect } from "react";
+import { getUserGrade } from "../../utils/ui-query-util";
+import { User } from "firebase/auth";
 
 export default function BrochureLayout() {
-  const navigate = useNavigate();
+  const [grade, setGrade] = useState<string | null>(null);
   const user = auth.currentUser;
-
+  useEffect(() => {
+    if (!user) return;
+    getUserGrade(user.uid, (grade) => setGrade(grade)).then(() => {});
+  }, []);
   // 로그인 된 유저 + Ticker Activation 된 유저는 service로 넘겨야함
 
   return (
     <>
-      <p>{user ? `${user.displayName} is loged in` : null}</p>
+      <p>{user ? `${user.displayName} is logged and Grade: ${grade}` : null}</p>
       <Wrapper>
         <Menu>
           <Link to="">

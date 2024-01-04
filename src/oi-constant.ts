@@ -27,4 +27,11 @@ const url = {
   },
 };
 
-export default { url };
+const table = {
+  tickets: {
+    name: "tickets",
+    pk: "userId",
+  },
+};
+
+export default { url, table };
