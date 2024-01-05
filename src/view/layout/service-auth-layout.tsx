@@ -1,10 +1,21 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Menu, MenuItem, Wrapper } from "../../components/layout-styled";
 import oiConstant from "../../oi-constant";
 import { auth } from "../../firebase";
+import { useEffect } from "react";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+// import { useDispatch } from "react-redux";
+// import { getUserTicketInfo } from "../../store/slices/user-ticket-info";
 
 export default function ServiceAuthLayout() {
   const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  const user = auth.currentUser;
+
+  // useEffect(() => {
+  //   if (!user) return;
+  //   dispatch(getUserTicketInfo(user.uid));
+  // }, []);
+
   const onLogout = async () => {
     const ok = confirm("Are you sure you want to log out?");
     if (ok) {
