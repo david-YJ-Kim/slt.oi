@@ -14,9 +14,8 @@ const url = {
   },
   service: {
     base: `/${baseUrl}/${service}/`,
-    dashboard: "/service/v1/dashboard",
+    dashboard: "dashboard",
     account: "account",
-    ticket: "ticker",
     keywordCollect: "keyword-collect",
     keywordManage: "keyword-manage",
     shopDataManage: "shopData-manage",

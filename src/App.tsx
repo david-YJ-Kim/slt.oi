@@ -14,16 +14,66 @@ import CreateAccount from "./view/pages/create-account";
 import BrochureHome from "./view/pages/brochure-home";
 import PurchaseTicket from "./view/pages/purchase-ticket";
 import DownloadProduct from "./view/pages/download-product";
+import ServiceDashboard from "./view/pages/service/service-dashboard";
+import ServiceAccount from "./view/pages/service/service-account";
+import SalesAnalyse from "./view/pages/service/sales-analyse";
+import SalesManage from "./view/pages/service/sales-manage";
+import ProductManage from "./view/pages/service/product-manage";
+import ShopDataUpload from "./view/pages/service/shopdata-upload";
+import ShopDataManage from "./view/pages/service/shopdata-manage";
+import KeywordManage from "./view/pages/service/keyword-manage";
+import KeywordCollect from "./view/pages/service/keyword-collect";
 
 const router = createBrowserRouter([
   {
-    path: "/service",
+    path: `${oiConstant.url.service.base}`,
     element: (
       <ServiceAuthRoute>
         <ServiceAuthLayout />
       </ServiceAuthRoute>
     ),
-    children: [],
+    children: [
+      {
+        path: "",
+        element: <ServiceDashboard />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.dashboard}`,
+        element: <ServiceDashboard />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.account}`,
+        element: <ServiceAccount />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.keywordCollect}`,
+        element: <KeywordCollect />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.keywordManage}`,
+        element: <KeywordManage />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.shopDataManage}`,
+        element: <ShopDataManage />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.shopDataUpload}`,
+        element: <ShopDataUpload />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.productManage}`,
+        element: <ProductManage />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.salesManage}`,
+        element: <SalesManage />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.salesAnalyse}`,
+        element: <SalesAnalyse />,
+      },
+    ],
   },
   {
     path: "/",
