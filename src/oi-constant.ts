@@ -23,6 +23,7 @@ const url = {
     productManage: "product-manage",
     salesManage: "sales-manage",
     salesAnalyse: "sales-analyse",
+    usgmService: "usgm-service",
   },
 };
 

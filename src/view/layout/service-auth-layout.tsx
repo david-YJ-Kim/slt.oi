@@ -1,224 +1,200 @@
-import { Menu, MenuItem, Wrapper } from "../../components/layout-styled";
-import oiConstant from "../../oi-constant";
-import { auth } from "../../firebase";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-// import { useDispatch } from "react-redux";
-// import { getUserTicketInfo } from "../../store/slices/user-ticket-info";
+import { auth } from "../../firebase";
+import oiConstant from "../../oi-constant";
+import {
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Box,
+  AppBar,
+  Toolbar,
+  Typography,
+  styled,
+} from "@mui/material";
+import {
+  Menu as MenuIcon,
+  Home,
+  Dashboard,
+  Person,
+  Search,
+  ManageSearch,
+  Store,
+  Upload,
+  Inventory,
+  ShowChart,
+  Assessment,
+  Logout,
+  ChevronLeft,
+} from "@mui/icons-material";
+
+const drawerWidth = 240;
+
+const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
+  open?: boolean;
+}>(({ theme, open }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(3),
+  transition: theme.transitions.create("margin", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  marginLeft: `-${drawerWidth}px`,
+  ...(open && {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  }),
+  backgroundColor: "#f5f5f5", // 밝은 배경색 설정
+}));
 
 export default function ServiceAuthLayout() {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
   const user = auth.currentUser;
 
-  // useEffect(() => {
-  //   if (!user) return;
-  //   dispatch(getUserTicketInfo(user.uid));
-  // }, []);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   const onLogout = async () => {
     const ok = confirm("Are you sure you want to log out?");
     if (ok) {
       auth.signOut();
       navigate("/");
-      window.location.reload(); // 화면 refresh 하여, trash 데이터 삭제
+      window.location.reload();
     }
   };
+
+  const menuItems = [
+    { text: "Go Home", icon: <Home />, path: "/" },
+    {
+      text: "Service Dashboard",
+      icon: <Dashboard />,
+      path: `${oiConstant.url.service.base}${oiConstant.url.service.dashboard}`,
+    },
+    {
+      text: "Account",
+      icon: <Person />,
+      path: `${oiConstant.url.service.base}${oiConstant.url.service.account}`,
+    },
+    {
+      text: "Keyword Collect",
+      icon: <Search />,
+      path: `${oiConstant.url.service.base}${oiConstant.url.service.keywordCollect}`,
+    },
+    {
+      text: "Keyword Manage",
+      icon: <ManageSearch />,
+      path: `${oiConstant.url.service.base}${oiConstant.url.service.keywordManage}`,
+    },
+    {
+      text: "Shop Data Manage",
+      icon: <Store />,
+      path: `${oiConstant.url.service.base}${oiConstant.url.service.shopDataManage}`,
+    },
+    {
+      text: "Shop Data Upload",
+      icon: <Upload />,
+      path: `${oiConstant.url.service.base}${oiConstant.url.service.shopDataUpload}`,
+    },
+    {
+      text: "Product Manage",
+      icon: <Inventory />,
+      path: `${oiConstant.url.service.base}${oiConstant.url.service.productManage}`,
+    },
+    {
+      text: "Sales Manage",
+      icon: <ShowChart />,
+      path: `${oiConstant.url.service.base}${oiConstant.url.service.salesManage}`,
+    },
+    {
+      text: "Sales Analyse",
+      icon: <Assessment />,
+      path: `${oiConstant.url.service.base}${oiConstant.url.service.salesAnalyse}`,
+    },
+    {
+      text: "USGM Service",
+      icon: <Assessment />,
+      path: `${oiConstant.url.service.base}${oiConstant.url.service.usgmService}`,
+    },
+  ];
+
   return (
-    <>
-      <Wrapper>
-        <Menu>
-          <Link to="/">
-            <MenuItem>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6"
-              >
-                <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
-                <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
-              </svg>
-            </MenuItem>
-          </Link>
-          go-home
-        </Menu>
-        <Menu>
-          <Link
-            to={`${oiConstant.url.service.base}${oiConstant.url.service.dashboard}`}
+    <Box sx={{ display: "flex" }}>
+      <AppBar
+        position="fixed"
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{ mr: 2, ...(open && { display: "none" }) }}
           >
-            <MenuItem>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6"
-              >
-                <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
-                <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
-              </svg>
-            </MenuItem>
-          </Link>
-          service-dashboard
-        </Menu>
-        <Menu>
-          <Link
-            to={`${oiConstant.url.service.base}${oiConstant.url.service.account}`}
-          >
-            <MenuItem>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6"
-              >
-                <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
-                <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
-              </svg>
-            </MenuItem>
-          </Link>
-          {oiConstant.url.service.account}
-        </Menu>
-        <Menu>
-          <Link
-            to={`${oiConstant.url.service.base}${oiConstant.url.service.keywordCollect}`}
-          >
-            <MenuItem>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6"
-              >
-                <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
-                <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
-              </svg>
-            </MenuItem>
-          </Link>
-          {oiConstant.url.service.keywordCollect}
-        </Menu>
-        <Menu>
-          <Link
-            to={`${oiConstant.url.service.base}${oiConstant.url.service.keywordManage}`}
-          >
-            <MenuItem>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6"
-              >
-                <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
-                <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
-              </svg>
-            </MenuItem>
-          </Link>
-          {oiConstant.url.service.keywordManage}
-        </Menu>
-        <Menu>
-          <Link
-            to={`${oiConstant.url.service.base}${oiConstant.url.service.shopDataManage}`}
-          >
-            <MenuItem>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6"
-              >
-                <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
-                <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
-              </svg>
-            </MenuItem>
-          </Link>
-          {oiConstant.url.service.shopDataManage}
-        </Menu>
-        <Menu>
-          <Link
-            to={`${oiConstant.url.service.base}${oiConstant.url.service.shopDataUpload}`}
-          >
-            <MenuItem>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6"
-              >
-                <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
-                <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
-              </svg>
-            </MenuItem>
-          </Link>
-          {oiConstant.url.service.shopDataUpload}
-        </Menu>
-        <Menu>
-          <Link
-            to={`${oiConstant.url.service.base}${oiConstant.url.service.productManage}`}
-          >
-            <MenuItem>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6"
-              >
-                <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
-                <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
-              </svg>
-            </MenuItem>
-          </Link>
-          {oiConstant.url.service.productManage}
-        </Menu>
-        <Menu>
-          <Link
-            to={`${oiConstant.url.service.base}${oiConstant.url.service.salesManage}`}
-          >
-            <MenuItem>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6"
-              >
-                <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
-                <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
-              </svg>
-            </MenuItem>
-          </Link>
-          {oiConstant.url.service.salesManage}
-        </Menu>
-        <Menu>
-          <Link
-            to={`${oiConstant.url.service.base}${oiConstant.url.service.salesAnalyse}`}
-          >
-            <MenuItem>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6"
-              >
-                <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
-                <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
-              </svg>
-            </MenuItem>
-          </Link>
-          {oiConstant.url.service.salesAnalyse}
-        </Menu>
-        <MenuItem onClick={onLogout} className="log-out">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="w-6 h-6"
-          >
-            <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
-            <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
-          </svg>
-          Log Out
-        </MenuItem>
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap component="div">
+            Service Dashboard
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
+            width: drawerWidth,
+            boxSizing: "border-box",
+          },
+        }}
+        variant="persistent"
+        anchor="left"
+        open={open}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            p: 1,
+          }}
+        >
+          <IconButton onClick={handleDrawerClose}>
+            <ChevronLeft />
+          </IconButton>
+        </Box>
+        <List>
+          {menuItems.map((item) => (
+            <ListItem button key={item.text} component={Link} to={item.path}>
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.text} />
+            </ListItem>
+          ))}
+          <ListItem button onClick={onLogout}>
+            <ListItemIcon>
+              <Logout />
+            </ListItemIcon>
+            <ListItemText primary="Log Out" />
+          </ListItem>
+        </List>
+      </Drawer>
+      <Main open={open}>
+        <Toolbar />{" "}
+        {/* 이 공간은 AppBar 아래 컨텐츠가 가려지지 않도록 합니다 */}
         <Outlet />
-      </Wrapper>
-    </>
+      </Main>
+    </Box>
   );
 }

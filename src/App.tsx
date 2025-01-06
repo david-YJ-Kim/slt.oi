@@ -23,100 +23,100 @@ import ShopDataUpload from "./view/pages/service/shopdata-upload";
 import ShopDataManage from "./view/pages/service/shopdata-manage";
 import KeywordManage from "./view/pages/service/keyword-manage";
 import KeywordCollect from "./view/pages/service/keyword-collect";
+import USGMPage from "./view/pages/service/usgm";
 
-const router = createBrowserRouter(
-  [
-    {
-      path: `${oiConstant.url.service.base}`,
-      element: (
-        <ServiceAuthRoute>
-          <ServiceAuthLayout />
-        </ServiceAuthRoute>
-      ),
-      children: [
-        {
-          path: "",
-          element: <ServiceDashboard />,
-        },
-        {
-          path: `${oiConstant.url.service.base}${oiConstant.url.service.dashboard}`,
-          element: <ServiceDashboard />,
-        },
-        {
-          path: `${oiConstant.url.service.base}${oiConstant.url.service.account}`,
-          element: <ServiceAccount />,
-        },
-        {
-          path: `${oiConstant.url.service.base}${oiConstant.url.service.keywordCollect}`,
-          element: <KeywordCollect />,
-        },
-        {
-          path: `${oiConstant.url.service.base}${oiConstant.url.service.keywordManage}`,
-          element: <KeywordManage />,
-        },
-        {
-          path: `${oiConstant.url.service.base}${oiConstant.url.service.shopDataManage}`,
-          element: <ShopDataManage />,
-        },
-        {
-          path: `${oiConstant.url.service.base}${oiConstant.url.service.shopDataUpload}`,
-          element: <ShopDataUpload />,
-        },
-        {
-          path: `${oiConstant.url.service.base}${oiConstant.url.service.productManage}`,
-          element: <ProductManage />,
-        },
-        {
-          path: `${oiConstant.url.service.base}${oiConstant.url.service.salesManage}`,
-          element: <SalesManage />,
-        },
-        {
-          path: `${oiConstant.url.service.base}${oiConstant.url.service.salesAnalyse}`,
-          element: <SalesAnalyse />,
-        },
-      ],
-    },
-    {
-      path: "/",
-      element: (
-        <BrochureRoute>
-          <BrochureLayout />
-        </BrochureRoute>
-      ),
-      children: [
-        {
-          // Brochure Home
-          path: "",
-          element: <BrochureHome />,
-        },
-        {
-          // log-in
-          path: `${oiConstant.url.brochure.base}${oiConstant.url.brochure.login}`,
-          // path: "/soi/v1/brochure/login",
-          element: <Login />,
-        },
-        {
-          // create-account
-          path: `${oiConstant.url.brochure.base}${oiConstant.url.brochure.createAccount}`,
-          element: <CreateAccount />,
-        },
-        {
-          // product-install
-          path: `${oiConstant.url.brochure.base}${oiConstant.url.brochure.donwloadProduct}`,
-          element: <DownloadProduct />,
-        },
-        {
-          // purchase-ticket
-          path: `${oiConstant.url.brochure.base}${oiConstant.url.brochure.purchaseTicket}`,
-          element: <PurchaseTicket />,
-        },
-      ],
-    },
-  ],
+const router = createBrowserRouter([
   {
-    basename: "/slt.oi", // GitHub Pages의 저장소 이름으로 변경
-  }
-);
+    path: `${oiConstant.url.service.base}`,
+    element: (
+      <ServiceAuthRoute>
+        <ServiceAuthLayout />
+      </ServiceAuthRoute>
+    ),
+    children: [
+      {
+        path: "",
+        element: <ServiceDashboard />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.dashboard}`,
+        element: <ServiceDashboard />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.account}`,
+        element: <ServiceAccount />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.keywordCollect}`,
+        element: <KeywordCollect />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.keywordManage}`,
+        element: <KeywordManage />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.shopDataManage}`,
+        element: <ShopDataManage />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.shopDataUpload}`,
+        element: <ShopDataUpload />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.productManage}`,
+        element: <ProductManage />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.salesManage}`,
+        element: <SalesManage />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.salesAnalyse}`,
+        element: <SalesAnalyse />,
+      },
+      {
+        path: `${oiConstant.url.service.base}${oiConstant.url.service.usgmService}`,
+        element: <USGMPage />,
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: (
+      <BrochureRoute>
+        <BrochureLayout />
+      </BrochureRoute>
+    ),
+    children: [
+      {
+        // Brochure Home
+        path: "",
+        element: <BrochureHome />,
+      },
+      {
+        // log-in
+        path: `${oiConstant.url.brochure.base}${oiConstant.url.brochure.login}`,
+        // path: "/soi/v1/brochure/login",
+        element: <Login />,
+      },
+      {
+        // create-account
+        path: `${oiConstant.url.brochure.base}${oiConstant.url.brochure.createAccount}`,
+        element: <CreateAccount />,
+      },
+      {
+        // product-install
+        path: `${oiConstant.url.brochure.base}${oiConstant.url.brochure.donwloadProduct}`,
+        element: <DownloadProduct />,
+      },
+      {
+        // purchase-ticket
+        path: `${oiConstant.url.brochure.base}${oiConstant.url.brochure.purchaseTicket}`,
+        element: <PurchaseTicket />,
+      },
+    ],
+  },
+]);
 
 const GlobalStyles = createGlobalStyle`
   ${reset};
@@ -124,8 +124,8 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
   body {
-    background-color: black;
-    color:white;
+    background-color: white;
+    color:black;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
 `;
