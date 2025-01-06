@@ -23,7 +23,7 @@ import ShopDataUpload from "./view/pages/service/shopdata-upload";
 import ShopDataManage from "./view/pages/service/shopdata-manage";
 import KeywordManage from "./view/pages/service/keyword-manage";
 import KeywordCollect from "./view/pages/service/keyword-collect";
-import USGMPage from "./view/pages/service/usgm";
+import USGMPage from "./view/pages/service/usgm/usgm-service";
 
 const router = createBrowserRouter([
   {
