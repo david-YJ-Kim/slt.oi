@@ -15,14 +15,6 @@ const url = {
   service: {
     base: `/${baseUrl}/${service}/`,
     dashboard: "dashboard",
-    account: "account",
-    keywordCollect: "keyword-collect",
-    keywordManage: "keyword-manage",
-    shopDataManage: "shopData-manage",
-    shopDataUpload: "shopData-upload",
-    productManage: "product-manage",
-    salesManage: "sales-manage",
-    salesAnalyse: "sales-analyse",
     usgmService: "usgm-service",
   },
 };

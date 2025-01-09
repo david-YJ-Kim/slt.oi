@@ -65,14 +65,6 @@ export default function ServiceAuthLayout() {
   const menuItems = [
     { text: "Go Home", icon: <Home />, path: "/" },
     { text: "Service Dashboard", icon: <Dashboard />, path: `${oiConstant.url.service.base}${oiConstant.url.service.dashboard}` },
-    { text: "Account", icon: <Person />, path: `${oiConstant.url.service.base}${oiConstant.url.service.account}` },
-    { text: "Keyword Collect", icon: <Search />, path: `${oiConstant.url.service.base}${oiConstant.url.service.keywordCollect}` },
-    { text: "Keyword Manage", icon: <ManageSearch />, path: `${oiConstant.url.service.base}${oiConstant.url.service.keywordManage}` },
-    { text: "Shop Data Manage", icon: <Store />, path: `${oiConstant.url.service.base}${oiConstant.url.service.shopDataManage}` },
-    { text: "Shop Data Upload", icon: <Upload />, path: `${oiConstant.url.service.base}${oiConstant.url.service.shopDataUpload}` },
-    { text: "Product Manage", icon: <Inventory />, path: `${oiConstant.url.service.base}${oiConstant.url.service.productManage}` },
-    { text: "Sales Manage", icon: <ShowChart />, path: `${oiConstant.url.service.base}${oiConstant.url.service.salesManage}` },
-    { text: "Sales Analyse", icon: <Assessment />, path: `${oiConstant.url.service.base}${oiConstant.url.service.salesAnalyse}` },
     { text: "USGM Service", icon: <Assessment />, path: `${oiConstant.url.service.base}${oiConstant.url.service.usgmService}` },
   ];
 
