@@ -61,7 +61,7 @@ export class UsgmApiService {
     return this.sendRequest(MessageList.SRV_USGM_NEW_RECORD, payload);
   }
 
-  // SRV_USGM_FETCH_ALL
+  // SRV_USGM_FETCH_REQ
   async fetchAllRecords(): Promise<any> {
     const payload: SrvUsgmFetchReqIvo = {
       head: generateCommonHeader(MessageList.SRV_USGM_FETCH_REQ, this.oiName),

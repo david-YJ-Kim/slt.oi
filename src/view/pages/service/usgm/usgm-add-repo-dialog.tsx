@@ -85,6 +85,9 @@ export default function GitInfoDialog({
         // API 호출
         await usgmApiService.registerNewRecord(formData);
       }
+      if (mode === "edit") {
+        await usgmApiService.editRecord(formData);
+      }
 
       // 아닐 시,
       onSave(formData);
