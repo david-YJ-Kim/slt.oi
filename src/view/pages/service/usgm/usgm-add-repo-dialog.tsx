@@ -88,8 +88,6 @@ export default function GitInfoDialog({
       if (mode === "edit") {
         await usgmApiService.editRecord(formData);
       }
-
-      // 아닐 시,
       onSave(formData);
 
       // timeout 설정하여, 일정 시간 후 자동으로 안보이게 처리

@@ -19,6 +19,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import GitInfoDialog from "./usgm-add-repo-dialog";
 import { usgmApiService } from "../../../../api/usgm/usgm-api";
+import ActionConfirmDialog from "./usgm-action-confirm-dialog";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   backgroundColor: "#3f51b5",
@@ -54,11 +55,15 @@ const StyledButton = styled(Button)(({ theme }) => ({
 // ];
 
 export default function USGMPage() {
+  type actionMode = "delete" | "push" | "pull";
   const [open, setOpen] = useState(false); // 하단 메시지에 대한 열림 여부
   const [message, setMessage] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState<OiUsgmFetchRep | null>(null);
   const [tableData, setTableData] = useState<OiUsgmFetchRep[]>([]);
+  const [actionType, setActionType] = useState<actionMode>("pull");
+  const [actionMessage, setActionMessage] = useState("");
+  const [actionDialogOpen, setActionDialogOpen] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -77,11 +82,12 @@ export default function USGMPage() {
   };
 
   const handleRowButtonClick = (
-    action: "edit" | "push",
+    action: "edit" | "delete" | "push" | "pull",
     rowData: OiUsgmFetchRep
   ) => {
+    setSelectedData(rowData);
+
     if (action == "edit") {
-      setSelectedData(rowData);
       setDialogOpen(true);
     } else {
       const message = `${action} 버튼이 클릭되었습니다
@@ -91,6 +97,12 @@ export default function USGMPage() {
     브랜치: ${rowData.branch}`;
       setMessage(message);
       setOpen(true);
+    }
+
+    if (action == "delete" || action === "push" || action === "pull") {
+      setActionType(action);
+      setActionMessage(`${action} 작업을 수행하겠습니다.`);
+      setActionDialogOpen(true);
     }
   };
 
@@ -103,6 +115,10 @@ export default function USGMPage() {
   const handleDialogClose = () => {
     setDialogOpen(false);
     setSelectedData(null);
+
+    if (actionDialogOpen === true) {
+      setActionDialogOpen(false);
+    }
   };
 
   const handleClose = () => {
@@ -132,6 +148,10 @@ export default function USGMPage() {
     setOpen(true);
     setSelectedData(null);
     setDialogOpen(false);
+
+    if (actionDialogOpen === true) {
+      setActionDialogOpen(false);
+    }
   };
 
   return (
@@ -205,9 +225,23 @@ export default function USGMPage() {
                     <StyledButton
                       variant="contained"
                       size="small"
+                      onClick={() => handleRowButtonClick("pull", row)}
+                    >
+                      Pull
+                    </StyledButton>
+                    <StyledButton
+                      variant="contained"
+                      size="small"
                       onClick={() => handleRowButtonClick("edit", row)}
                     >
                       edit
+                    </StyledButton>
+                    <StyledButton
+                      variant="contained"
+                      size="small"
+                      onClick={() => handleRowButtonClick("delete", row)}
+                    >
+                      delete
                     </StyledButton>
                   </TableCell>
                 </TableRow>
@@ -239,6 +273,16 @@ export default function USGMPage() {
         data={selectedData}
         onSave={handleSave}
         mode={selectedData ? "edit" : "register"} // selectedData 유무로 모드 결정
+      />
+
+      {/* 삭제, Push, Pull 버튼 클릭 시 , 확인 받는 팝업 발생 */}
+      <ActionConfirmDialog
+        open={actionDialogOpen}
+        onClose={handleDialogClose}
+        data={selectedData}
+        onSave={handleSave}
+        mode={actionType}
+        message={actionMessage}
       />
     </Box>
   );
