@@ -130,8 +130,11 @@ export default function USGMPage() {
     하위 페이지에서 저장 버튼 클릭 시, 호출됨
   */
   const handleSave = async (updatedData: OiUsgmFetchRep) => {
+    if (actionType === "delete") {
+      await fetchData();
+    }
+
     if (selectedData) {
-      // Edit mode
       setTableData((prev) =>
         prev.map((item) =>
           item.fileName === selectedData?.fileName ? updatedData : item

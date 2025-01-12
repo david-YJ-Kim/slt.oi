@@ -7,6 +7,7 @@ export default interface SrvUsgmDeleteRecordIvo {
 }
 
 interface Body extends CommonBody {
+  objId: string;
   repoFileName: string;
   repoFilePath: string;
   gitRepoUrl: string;

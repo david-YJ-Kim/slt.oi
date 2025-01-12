@@ -101,6 +101,7 @@ export class UsgmApiService {
         this.oiName
       ),
       body: {
+        objId: formData.objId,
         repoFileName: formData.fileName,
         repoFilePath: formData.localPath,
         gitRepoUrl: formData.upstreamUrl,

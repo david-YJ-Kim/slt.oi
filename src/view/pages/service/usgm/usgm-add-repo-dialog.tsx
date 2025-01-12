@@ -118,7 +118,18 @@ export default function GitInfoDialog({
 
   return (
     <>
-      <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+      <Dialog
+        open={open}
+        onClose={onClose}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: {
+            minHeight: "30vh", // Dialog의 최소 높이를 화면 높이의 80%로 설정
+            maxHeight: "90vh", // Dialog의 최대 높이를 화면 높이의 90%로 설정
+          },
+        }}
+      >
         <DialogTitle>
           <Box
             display="flex"
@@ -131,8 +142,22 @@ export default function GitInfoDialog({
             </IconButton>
           </Box>
         </DialogTitle>
-        <DialogContent>
-          <Box sx={{ display: "grid", gap: 2, my: 2 }}>
+        <DialogContent
+          sx={{
+            overflowY: "visible", // 스크롤바 제거
+            "& .MuiDialogContent-root": {
+              overflowY: "visible", // 내부 컨텐츠의 스크롤바도 제거
+            },
+          }}
+        >
+          <Box
+            sx={{
+              display: "grid",
+              gap: 2,
+              my: 2,
+              minHeight: "fit-content", // 내용물 크기에 맞게 높이 조절
+            }}
+          >
             <TextField
               name="fileName"
               label="파일명"
